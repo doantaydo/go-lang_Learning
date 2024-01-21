@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Example</title>
+</head>
+<body>
+    <label for="userInput">Number Of Champs for each team:</label>
+    <input type="text" id="userInput"> <br>
+    <button onclick="fetchData()">RANDOM CHAMPION</button>
+
+    <script>
+        function fetchData() {
+            // Get user input from the input field
+            const userInput = document.getElementById('userInput').value;
+
+            // Make a request to the Golang server with user input
+            fetch('http://localhost:8080/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userInput }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the website content with the server response
+                    document.getElementById('output').innerText = 'Server Response: ' + data.message;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>
